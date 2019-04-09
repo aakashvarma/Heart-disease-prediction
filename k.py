@@ -6,6 +6,7 @@ from sklearn import svm
 from sklearn.naive_bayes import GaussianNB
 from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import MultinomialNB
+from tabulate import tabulate
 
 X = pd.read_csv("X_test.csv").astype('float')
 Y = pd.read_csv("Y_test.csv").astype('float')
@@ -35,6 +36,7 @@ print ("1. Support Vector Machine")
 print ("2. Logistic Regression")
 print ("3. K-Nearest Neighbours")
 print ("4. Naive Bayes")
+print ("5. Compare results")
 print ("...........................................................................")
 n = input("Enter your number here: ")
 
@@ -96,9 +98,12 @@ def result_comparison():
     clf_nb = MultinomialNB()
 
     clf_svm.fit(X_train, Y_train)
-    clf_lf.fit(X_train, Y_train)
+    clf_lr.fit(X_train, Y_train)
     clf_knn.fit(X_train, Y_train)
     clf_nb.fit(X_train, Y_train)
+
+    table = [["SVM", clf_svm.score(X_train, Y_train), clf_svm.score(X_test, Y_test)],["LR", clf_lr.score(X_train, Y_train), clf_lr.score(X_test, Y_test)],["KNN", clf_knn.score(X_train, Y_train), clf_knn.score(X_test, Y_test)],["NB", clf_nb.score(X_train, Y_train), clf_nb.score(X_test, Y_test)]]
+    print tabulate(table, headers=["Classifier","Training set accuracy", "Testing set accuracy"])
 
 
 if n == 1:
@@ -125,6 +130,10 @@ elif n == 4:
     print ("Running Naive Bayes")
     run()
     predict_custom_input()
+
+elif n == 5:
+    print ("comparing results")
+    result_comparison()
 
 else:
     print("Wrong number selected")
