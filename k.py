@@ -7,6 +7,7 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import MultinomialNB
 from tabulate import tabulate
+import matplotlib.pyplot as plt
 
 X = pd.read_csv("X_test.csv").astype('float')
 Y = pd.read_csv("Y_test.csv").astype('float')
@@ -38,7 +39,15 @@ print ("3. K-Nearest Neighbours")
 print ("4. Naive Bayes")
 print ("5. Compare results")
 print ("...........................................................................")
+
 n = input("Enter your number here: ")
+row = input("Enter a row number for ECG custom input: ")
+
+def plot(r):
+    x = list(range(1,188))
+    y = r
+    plt.plot(x, y)
+    plt.show()
 
 
 def run():
@@ -59,9 +68,10 @@ def run():
     print ("Test Set accuracy = ", score*100)
     print ("Test Set error = ",(1-score)*100)
 
-def predict_custom_input():
+def predict_custom_input(row):
     print("---------------------------------------")
-    custom_predict = clf.predict([X.iloc[5]])
+    custom_predict = clf.predict([X.iloc[row]])
+    plot(X.iloc[row])
     if custom_predict == 0:
         print ("Normal")
     elif custom_predict == 1:
@@ -110,26 +120,26 @@ if n == 1:
     clf = svm.SVC(C=1,kernel="linear")
     print ("Running Support Vector machine")
     run()
-    predict_custom_input()
+    predict_custom_input(row)
 
 elif n == 2:
     clf = LogisticRegression(random_state=0, solver='lbfgs', multi_class='multinomial')
     print ("Running Logistic Regression")
     run()
-    predict_custom_input()
+    predict_custom_input(row)
     
 elif n == 3:
     clf = KNeighborsClassifier(n_neighbors=5)
     print ("Running KNN")
     run()
-    predict_custom_input()
+    predict_custom_input(row)
  
 elif n == 4:
     # clf = GaussianNB()
     clf = MultinomialNB()
     print ("Running Naive Bayes")
     run()
-    predict_custom_input()
+    predict_custom_input(row)
 
 elif n == 5:
     print ("comparing results")
