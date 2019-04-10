@@ -61,6 +61,7 @@ def run():
     clf.fit(X_train, Y_train)
     print(clf.predict(X_train))
     score = clf.score(X_train, Y_train)
+    print ("Number of Training set samples: 14042")
     print ("Training Set accuracy = ", score*100)
     print ("Training Set error = ", (1-score)*100)
 
@@ -69,11 +70,13 @@ def run():
     print()
     print(clf.predict(X_test))
     score = clf.score(X_test, Y_test)
+    print ("Number of Testing set samples: 3511")
     print ("Test Set accuracy = ", score*100)
     print ("Test Set error = ",(1-score)*100)
 
 def predict_custom_input(row):
     print("---------------------------------------")
+    print("The given ECG signal is/has: ")
     custom_predict = clf.predict([X.iloc[row]])
     plot(X.iloc[row])
     if custom_predict == 0:
