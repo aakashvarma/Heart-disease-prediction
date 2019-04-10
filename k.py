@@ -18,15 +18,15 @@ print("1	Normal")
 print("2	Ischemic changes (Coronary Artery)")
 print("3	Old Anterior Myocardial Infarction")
 print("4	Old Inferior Myocardial Infarction")
-print("5	Sinus tachycardia	")
+print("5	Sinus tachycardia")
 print("6	Sinus bradycardia")
 print("7	Ventricular Premature Contraction (PVC)")
 print("8	Supraventricular Premature Contraction")
 print("9	Left bundle branch block")
 print("10	Right bundle branch block")
 print("11	Left ventricle hypertrophy")
-print("12	Atrial Fibrillation or Flutter	 ")
-print("13	Others	")
+print("12	Atrial Fibrillation or Flutter")
+print("13	Others")
 
 
 X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.33, random_state=42)
@@ -40,8 +40,12 @@ print ("4. Naive Bayes")
 print ("5. Compare results")
 print ("...........................................................................")
 
+
+################################################## TAKING INPUT HERE #################
+
 n = input("Enter your number here: ")
-row = input("Enter a row number for ECG custom input: ")
+if n!= 5:
+    row = input("Enter a row number for ECG custom input: ")
 
 def plot(r):
     x = list(range(1,188))
@@ -114,6 +118,45 @@ def result_comparison():
 
     table = [["SVM", clf_svm.score(X_train, Y_train), clf_svm.score(X_test, Y_test)],["LR", clf_lr.score(X_train, Y_train), clf_lr.score(X_test, Y_test)],["KNN", clf_knn.score(X_train, Y_train), clf_knn.score(X_test, Y_test)],["NB", clf_nb.score(X_train, Y_train), clf_nb.score(X_test, Y_test)]]
     print tabulate(table, headers=["Classifier","Training set accuracy", "Testing set accuracy"])
+
+    # objects = ('SVM', 'LR', 'KNN', 'NB')
+    # y_pos = np.arange(len(objects))
+    # performance = [1.0, 0.8, 0.6, 0.4]
+    
+    # plt.bar(y_pos, performance, align='center', alpha=0.5)
+    # plt.xticks(y_pos, objects)
+    # plt.ylabel('Accuracy')
+    # plt.title('Comparison of different Machine Learning Classifiers for detecting ECG based heart diseases')
+    # plt.show()
+
+    n_groups = 4
+    means_frank = (clf_svm.score(X_train, Y_train), clf_lr.score(X_train, Y_train), clf_knn.score(X_train, Y_train), clf_nb.score(X_train, Y_train))
+    means_guido = (clf_svm.score(X_test, Y_test), clf_lr.score(X_test, Y_test), clf_knn.score(X_test, Y_test), clf_nb.score(X_test, Y_test))
+    
+    # create plot
+    fig, ax = plt.subplots()
+    index = np.arange(n_groups)
+    bar_width = 0.35
+    opacity = 0.8
+    
+    rects1 = plt.bar(index, means_frank, bar_width,
+    alpha=opacity,
+    color='b',
+    label='Training set accuracy')
+    
+    rects2 = plt.bar(index + bar_width, means_guido, bar_width,
+    alpha=opacity,
+    color='g',
+    label='Testing set accuracy')
+    
+    plt.xlabel('Person')
+    plt.ylabel('Scores')
+    plt.title('Comparison of different Machine Learning Classifiers for detecting ECG based heart diseases')
+    plt.xticks(index + bar_width, ('SVM', 'LR', 'KNN', 'NB'))
+    plt.legend()
+    
+    plt.tight_layout()
+    plt.show()
 
 
 if n == 1:
