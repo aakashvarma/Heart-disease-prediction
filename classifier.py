@@ -9,8 +9,8 @@ from sklearn.naive_bayes import MultinomialNB
 from tabulate import tabulate
 import matplotlib.pyplot as plt
 
-X = pd.read_csv("X_test.csv").astype('float')
-Y = pd.read_csv("Y_test.csv").astype('float')
+X = pd.read_csv("X_train.csv").astype('float')
+Y = pd.read_csv("Y_train.csv").astype('float')
 Y=np.array(Y)
 Y=Y.ravel()
 
